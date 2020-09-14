@@ -1,0 +1,9 @@
+Database => Tempat nyimpen data
+mysql => DBMS
+
+mysql => db => table => column
+
+query mysql (command mysql) gak jauh jauh dari crud
+    // show databases;
+    // create database name;
+    // create table
