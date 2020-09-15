@@ -1,7 +1,8 @@
 // Initialize all packages
 const mysql = require('mysql');
 const express = require('express');
-const app = express()
+const app = express();
+const cors = require('cors');
 
 // mysql connection
 const db = mysql.createConnection({
@@ -14,6 +15,10 @@ const db = mysql.createConnection({
 // Initialize body parser , buat nerima req.body
 app.use(express.json())
 
+// Initialize Cors
+app.use(cors())
+
+
 // ports
 const PORT = 2000
 
@@ -21,6 +26,8 @@ const PORT = 2000
 app.get('/' , (req,res) => {
     res.send("SELAMAT DATANG DI API SPORTEENS")
 })
+
+
 
 
 // CRUD
@@ -85,6 +92,28 @@ app.get('/product/:id' , (req,res) => {
             res.send(error.message)
         }
     }) 
+})
+
+app.get('/filterbyname', (req,res) => {
+    var name = req.query.name
+    // var price = req.query.harga
+    // console.log(price)
+    console.log(name)
+
+    var query = `select * from products where name like "%${name}%";`
+    db.query(query,(err,result) => {
+        try {
+            if(err) throw err
+            if(result.length > 0){
+                res.send(result)
+            }else{
+                res.send('data not found')
+            }
+        } catch (error) {
+            res.send(error.message)
+        }
+        
+    })
 })
 
 
