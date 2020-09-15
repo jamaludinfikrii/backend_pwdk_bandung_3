@@ -58,6 +58,21 @@ const app = express()
 // req res
 // res buat kirim dari be ==> fe
 // req buat nerima dari fe ==> be
+// HTTP METHOD
+    // POST ==> create data
+    // GET  ==> Read Data
+    // PATCH  ==> update data
+    // PUT  ==> Update data
+    // DELETE ==> Delete data
+
+// POSTMAN
+    // PENGGANTI FRONT END
+    // TESTING API
+    // GENERATE DOCUMENTATION
+// BACKEND JOBS
+    // BIKIN API
+    // PROVIDE GOOD DOCUMENTATION
+
 app.get('/' , (req,res) => {
     res.send('Hello World')
 })
@@ -84,7 +99,11 @@ app.get('/simple' , (req,res) => {
     }
 })
 
+
 app.listen(PORT , () => console.log('API Running on port ' + PORT ))
+
+
+
 
 
 
