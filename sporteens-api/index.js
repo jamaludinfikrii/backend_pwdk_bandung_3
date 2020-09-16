@@ -159,3 +159,28 @@ app.patch('/product/:bebas' , (req,res) => {
 
 app.listen(PORT , () => console.log('API RUNNING ON PORT ' + PORT))
 
+
+app.delete('/product/:id' , (req,res) => {
+    const id = req.params.id
+    db.query('select * from products where id = ?' , id , (err,result) => {
+        try {
+            if(err) throw err
+            if(result.length > 0){
+                const sqlQuery = 'delete from products where id = ?'
+                db.query(sqlQuery , id , (err,result) => {
+                    try {
+                        if(err) throw err
+                        res.send('Delete Data Success !')
+                    } catch (error) {
+                        res.send(error.message)
+                    }
+                })
+            }else{
+                res.send("Data with id " + id + ' Not found')
+            }
+        } catch (error) {
+            res.send(error.message)
+        }
+    })
+})
+
