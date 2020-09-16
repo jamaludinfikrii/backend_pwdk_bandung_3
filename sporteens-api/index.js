@@ -12,7 +12,7 @@ const db = mysql.createConnection({
     port : 3306
 })
 
-// Initialize body parser , buat nerima req.body
+// buat nerima req.body 
 app.use(express.json())
 
 // Initialize Cors
@@ -35,7 +35,7 @@ app.get('/' , (req,res) => {
 // CREATE
 app.post('/product' , (req,res) => {
 
-    // nerima data dari front end
+    // nerima data dari front end // req.body | req.params | req.query
     const data = req.body
 
     // data dari front end nyampe di backend
@@ -64,7 +64,6 @@ app.post('/product' , (req,res) => {
 })
 
 // READ DATA
-
 app.get('/products', (req,res) => {
     var query = 'select * from products;'
     db.query(query,(err,result) => {
@@ -76,6 +75,8 @@ app.get('/products', (req,res) => {
         }
     })
 })
+
+
 
 
 app.get('/product/:id' , (req,res) => {
@@ -116,6 +117,45 @@ app.get('/filterbyname', (req,res) => {
     })
 })
 
+
+app.patch('/product/:bebas' , (req,res) => {
+    const id = req.params.bebas
+    const data = req.body
+    console.log(data)
+    console.log(id)
+
+    // var queryUpdate = `UPDATE products
+    // SET name="${data.name}"
+    // WHERE id=${id};`
+
+    // get data with id
+    var getQuery = 'select * from products where id = ?'
+    db.query(getQuery,id,(err,result) => {
+        try {
+            if(err) throw err
+
+            // if data exist, then update the data
+            if(result.length > 0){
+                var queryUpdateShort = 'update products set ? where id = ?';
+                db.query(queryUpdateShort,[data,id] , (err,result) => {
+                    try {
+                        if(err) throw err
+                        res.send("Edit Data Success")
+                    } catch (error) {
+                        res.send(error.message)
+                    }
+                })
+                // update
+
+                // if data not exist, return error message
+            }else{
+                res.send('Data With id ' + id + ' Not Found')
+            }
+        } catch (error) {
+            res.send(err.message)
+        }
+    })
+})
 
 app.listen(PORT , () => console.log('API RUNNING ON PORT ' + PORT))
 
